@@ -1,22 +1,24 @@
 import { expect } from 'chai';
-import { getToken } from '../helpers/auth.js';
+import { comTokenAdmin } from '../helpers/auth.js';
 import { cadastroAluno } from '../helpers/aluno.js';
+import { novoAluno } from '../factories/alunosFactory.js';
 
 describe('Alunos', () => {
 
-  let token;
   let aleatorio;
+  let novoAlunoCadastrado;
 
   beforeEach(async() => {
     aleatorio = Date.now();
-    token = await getToken('admin@escola.com', 'admin123');
+    novoAlunoCadastrado = novoAluno();
   });
     it('deve cadastrar um aluno quando ele informa dados válidos', async() => {
-      const nomeEsperado = `Aluno Teste ${aleatorio}`;
-      const emailEsperado = `aluno.teste.${aleatorio}@exemplo.com`;
-      const matriculaEsperada = `${aleatorio}`;
+      const nomeEsperado = novoAlunoCadastrado.nome
+      const emailEsperado = novoAlunoCadastrado.email;
+      const matriculaEsperada = novoAlunoCadastrado.matricula;
+      const senhaEsperada = novoAlunoCadastrado.senha;
 
-      const cadastroAlunoResposta1 = await cadastroAluno(nomeEsperado, emailEsperado, matriculaEsperada, '123456', token);
+      const cadastroAlunoResposta1 = await cadastroAluno(nomeEsperado, emailEsperado, matriculaEsperada, senhaEsperada);
 
         expect(cadastroAlunoResposta1.status).to.equal(201);
         expect(cadastroAlunoResposta1.body.nome).to.equal(nomeEsperado);
@@ -30,7 +32,7 @@ describe('Alunos', () => {
       const emailEsperado = 'ana.souza@example.com';
       const matriculaEsperada = '2024001';
 
-      const cadastroAlunoResposta = await cadastroAluno(nomeEsperado, emailEsperado, matriculaEsperada, '123456', token);
+      const cadastroAlunoResposta = await cadastroAluno(nomeEsperado, emailEsperado, matriculaEsperada, '123456');
 
       expect(cadastroAlunoResposta.status).to.equal(409);
     });

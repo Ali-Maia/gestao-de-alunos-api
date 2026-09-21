@@ -1,13 +1,13 @@
-import request from 'supertest';
-import 'dotenv/config';
+import { api } from './api.js';
+import { comTokenAdmin } from './auth.js';
 
-const baseUrl = process.env.BASE_URL;
+export async function cadastrarDisciplina(nome, codigo, cargaHoraria){
+const tokenAdmin = await comTokenAdmin()
 
-export async function cadastrarDisciplina(nome, codigo, cargaHoraria, token){
-  const cadastrarDisciplinaResposta = await request(baseUrl)
+  const cadastrarDisciplinaResposta = await api()
   .post('/api/admin/disciplinas')
   .set('Content-Type', 'application/json')
-  .set('Authorization', `Bearer ${token}`)
+  .set('Authorization', tokenAdmin)
   .send({
     nome: nome,
     codigo: codigo,
@@ -17,11 +17,13 @@ export async function cadastrarDisciplina(nome, codigo, cargaHoraria, token){
   return cadastrarDisciplinaResposta;
 }
 
-export async function matricularAlunoNaDisciplina(alunoId, disciplinaId, token) {
-  const matriculaAlunoresposta = await request(baseUrl)
+export async function matricularAlunoNaDisciplina(alunoId, disciplinaId) {
+  const tokenAdmin = await comTokenAdmin()
+
+  const matriculaAlunoresposta = await api()
   .post(`/api/admin/disciplinas/${disciplinaId}/matriculas`)
   .set('Content-Type', 'application/json')
-  .set('Authorization', `Bearer ${token}`)
+  .set('Authorization', tokenAdmin)
   .send({
     alunoId:alunoId
   });

@@ -1,10 +1,24 @@
-import request from 'supertest';
+import { api } from './api.js';
 import 'dotenv/config';
 
-const baseUrl = process.env.BASE_URL;
+let tokenEmCache = null;
+
+export async function comTokenAdmin() {
+  if(!tokenEmCache){
+    const loginResposta = await api()
+          .post('/api/auth/login')
+          .set('Content-Type', 'application/json')
+          .send({
+            email: process.env.ADMIN_EMAIL,
+            senha: process.env.ADMIN_SENHA
+          });
+    tokenEmCache =  loginResposta.body.token;
+    };
+  return `Bearer ${tokenEmCache}`;
+}
 
 export async function getToken(email, senha) {
-  const loginResposta = await request(baseUrl)
+  const loginResposta = await api()
         .post('/api/auth/login')
         .set('Content-Type', 'application/json')
         .send({

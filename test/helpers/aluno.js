@@ -1,13 +1,12 @@
-import request from 'supertest';
-import 'dotenv/config';
+import { api } from './api.js';
+import { comTokenAdmin } from './auth.js';
 
-const baseUrl = process.env.BASE_URL;
-
-export async function cadastroAluno(nome, email, matricula, senha, token){
-  const cadastroAlunoResposta = await request (baseUrl)
+export async function cadastroAluno(nome, email, matricula, senha){
+  const tokenAdmin = await comTokenAdmin()
+  const cadastroAlunoResposta = await api()
   .post('/api/admin/alunos')
   .set('Content-Type', 'application/json')
-  .set('Authorization', `Bearer ${token}`)
+  .set('Authorization', tokenAdmin)
   .send({
     nome: nome,
     email: email,
