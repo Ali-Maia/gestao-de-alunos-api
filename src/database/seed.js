@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Administrador from '../models/admin.model.js';
 import Aluno from '../models/aluno.model.js';
 import Disciplina from '../models/disciplina.model.js';
@@ -133,6 +134,15 @@ export async function seed() {
   await seedTrabalhos();
 }
 
+export async function resetDatabase() {
+  if (!mongoose.connection.db) {
+    return;
+  }
+
+  await mongoose.connection.db.dropDatabase();
+  await seed();
+}
+
 await seed();
 
-export default { seed };
+export default { seed, resetDatabase };
