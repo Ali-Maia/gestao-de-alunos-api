@@ -1,4 +1,4 @@
-[
+export default[
   {
     "testTittle": "Validar que o aluno João pode realizar o cadastro de uma nova entrega de trabalho",
     "dadosAluno": {
@@ -14,7 +14,7 @@
     },
     "dadosTrabalho": {
       "titulo": "Lista de Exercícios 01",
-      "descrição": "Resolução dos exercícios 01 ao 10." 
+      "descricao": "Resolução dos exercícios 01 ao 10." 
     },
     "statusCodeEsperado": 201,
   },

@@ -25,7 +25,6 @@ describe('POST /api/admin/alunos', () => {
         expect(respostaCadastroAluno.body.nome).to.equal(aluno.nome);
         expect(respostaCadastroAluno.body.email).to.equal(aluno.email);
         expect(respostaCadastroAluno.body.matricula).to.equal(aluno.matricula);
-        console.log(respostaCadastroAluno.body)
 
         alunosCriados.push(respostaCadastroAluno.body.id);
       };

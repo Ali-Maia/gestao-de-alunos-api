@@ -30,3 +30,11 @@ export async function matricularAlunoNaDisciplina(alunoId, disciplinaId) {
 
   return matriculaAlunoresposta;
 }
+
+export async function deletarDisciplina(disciplinaId) {
+  const tokenAdmin = comTokenAdmin();
+
+  const deletarDisciplinaResposta = await api()
+  .delete(`/api/admin/disciplinas/${disciplinaId}`)
+  .set('Authorization', tokenAdmin)
+}
