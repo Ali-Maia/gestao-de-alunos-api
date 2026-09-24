@@ -8,6 +8,7 @@ export default[
       "senha": "123456"
     },
     "statusCodeEsperado": 201,
+    "mensagemErroEsperada": null,
   },
 
   {
@@ -19,6 +20,7 @@ export default[
       "senha": "123456"
     },
     "statusCodeEsperado": 409,
+    "mensagemErroEsperada": "Já existe um aluno cadastrado com essa matrícula ou e-mail.",
   },
 
     {
@@ -30,5 +32,6 @@ export default[
       "senha": "123456"
     },
     "statusCodeEsperado": 400,
+    "mensagemErroEsperada": 'Os campos "nome", "email", "matricula" e "senha" são obrigatórios.',
   }
 ]

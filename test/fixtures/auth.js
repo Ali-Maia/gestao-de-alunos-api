@@ -5,7 +5,7 @@ export default [
     testTitle: "deve retornar 200 e um token quando o admin informar e-mail e senha corretos",
     dadosUsuario: {
       emailUsuario: process.env.ADMIN_EMAIL,
-      senhaUsuario: process.env.ADMIN_PASSWORD || process.env.ADMIN_SENHA
+      senhaUsuario: process.env.ADMIN_SENHA
     },
     statusCodeEsperado: 200,
     mensagemErroEsperada: null

@@ -9,6 +9,8 @@ describe('POST /api/alunos/{alunoId}/trabalhos', () => {
   for (const caso of entregaTrabalho){
     it(caso.testTittle, async() => {
       const aluno = caso.dadosAluno;
+      const senhaUsuarioEnvioTrabalho = aluno.senhaIncorreta ?? aluno.senha;
+      const emailUsuarioEnvioTrabalho = aluno.emailOutroAluno ?? aluno.email;
       const disciplina = caso.dadosDisciplina;
       const trabalho = caso.dadosTrabalho;
 
@@ -20,7 +22,7 @@ describe('POST /api/alunos/{alunoId}/trabalhos', () => {
 
       const respostaMatricularAlunoNaDisciplina = await matricularAlunoNaDisciplina(alunoId, disciplinaId);
 
-      const respostaCadastrarTrabalho = await cadastrarTrabalho(alunoId, aluno.email, aluno.senha, disciplinaId, trabalho.titulo, trabalho.descricao);
+      const respostaCadastrarTrabalho = await cadastrarTrabalho(alunoId, emailUsuarioEnvioTrabalho, senhaUsuarioEnvioTrabalho, disciplinaId, trabalho.titulo, trabalho.descricao);
 
       expect(respostaCadastrarTrabalho.status).to.equal(caso.statusCodeEsperado);
 
@@ -29,7 +31,9 @@ describe('POST /api/alunos/{alunoId}/trabalhos', () => {
         expect(respostaCadastrarTrabalho.body.descricao).to.equal(trabalho.descricao);
         expect(respostaCadastrarTrabalho.body.alunoId).to.equal(alunoId);
         expect(respostaCadastrarTrabalho.body.disciplinaId).to.equal(disciplinaId);
-
+      };
+      if (caso.statusCodeEsperado >= 400 && caso.statusCodeEsperado < 500) {
+        expect(respostaCadastrarTrabalho.body.error).to.equal(caso.mensagemErroEsperada);
       };
     });
   }

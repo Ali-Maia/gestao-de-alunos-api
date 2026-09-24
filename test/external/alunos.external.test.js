@@ -5,13 +5,6 @@ import alunos from '../fixtures/alunos.js'
 import { api } from "../helpers/api.js";
 
 describe('POST /api/admin/alunos', () => {
-  const alunosCriados = [];
-
-  after( async () =>{
-    for(const id of alunosCriados){
-      await deletarAluno(id);
-    }
-  });
 
   for (const caso of alunos){
     it(caso.testTittle, async () => {
@@ -25,8 +18,9 @@ describe('POST /api/admin/alunos', () => {
         expect(respostaCadastroAluno.body.nome).to.equal(aluno.nome);
         expect(respostaCadastroAluno.body.email).to.equal(aluno.email);
         expect(respostaCadastroAluno.body.matricula).to.equal(aluno.matricula);
-
-        alunosCriados.push(respostaCadastroAluno.body.id);
+      };
+      if (caso.statusCodeEsperado >= 400 && caso.statusCodeEsperado < 500) {
+        expect(respostaCadastroAluno.body.error).to.equal(caso.mensagemErroEsperada);
       };
     });
   };
