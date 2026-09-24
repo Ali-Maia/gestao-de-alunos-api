@@ -34,7 +34,20 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Iniciar API para testes externos
+        run: |
+          PORT=3000 BASE_URL=http://127.0.0.1:3000 npm start > api.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:3000 >/dev/null && break
+            sleep 1
+          done
+
       - name: Executar testes
         run: npm test
         env:
-          MONGODB_URI: mongodb://127.0.0.1:27017/gestao-de-alunos-test
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BASE_URL: http://127.0.0.1:3000
+          PORT: 3000
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_SENHA: ${{ secrets.ADMIN_SENHA }}
