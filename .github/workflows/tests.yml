@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Iniciar API para testes externos
-        run: run: npm start > server.log 2>&1 &
+        run: npm start > server.log 2>&1 &
 
       - name: Aguardar API
         run: curl --retry 30 --retry-all-errors --retry-delay 1 --fail http://localhost:3000/
