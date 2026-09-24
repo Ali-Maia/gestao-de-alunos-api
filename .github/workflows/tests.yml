@@ -35,12 +35,10 @@ jobs:
         run: npm ci
 
       - name: Iniciar API para testes externos
-        run: |
-          PORT=3000 BASE_URL=http://127.0.0.1:3000 npm start > api.log 2>&1 &
-          for i in $(seq 1 30); do
-            curl -fsS http://127.0.0.1:3000 >/dev/null && break
-            sleep 1
-          done
+        run: run: npm start > server.log 2>&1 &
+
+      - name: Aguardar API
+        run: curl --retry 30 --retry-all-errors --retry-delay 1 --fail http://localhost:3000/
 
       - name: Executar testes
         run: npm test
