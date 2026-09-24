@@ -41,7 +41,7 @@ export default[
     "mensagemErroEsperada": "Token de autenticação inválido ou expirado.",
   },
   {
-  "testTittle": "Validar que retorna erro 403 ao tentar realizar o cadastro de uma nova entrega de trabalho ao informar senha incorreta",
+  "testTittle": "Validar que retorna erro 403 ao tentar realizar o cadastro de uma nova entrega de trabalho com outro usuário",
     "dadosAluno": {
       "nome": "Raissa Monteiro",
       "email": "raissa.monteiro8690@example.com",
